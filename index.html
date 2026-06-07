@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EFR + DSD Teaching Visual · 2026-06-08</title>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root{
+      --paper:#fafaf8;
+      --paper-rgb:250,250,248;
+      --ink:#0a0a0a;
+      --ink-rgb:10,10,10;
+      --grey-1:#f0f0ee;
+      --grey-2:#d4d4d2;
+      --grey-3:#737373;
+      --accent:#002FA7;
+      --accent-rgb:0,47,167;
+      --accent-on:#ffffff;
+      --safe:clamp(20px,5vw,72px);
+      --line:1px solid var(--ink);
+      --hair:1px solid var(--grey-2);
+      --font:Inter, Helvetica, Arial, "PingFang SC", "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+      --mono:"SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:var(--font);
+      letter-spacing:0;
+      line-height:1.45;
+    }
+    a{color:inherit}
+    .page{min-height:100vh}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:20px;
+      padding:14px var(--safe);
+      border-bottom:var(--line);
+      background:rgba(var(--paper-rgb),.94);
+      backdrop-filter:blur(14px);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .brand-mark{
+      width:16px;
+      height:16px;
+      background:var(--accent);
+      flex:0 0 auto;
+    }
+    .brand-title{
+      margin:0;
+      font-size:14px;
+      font-weight:600;
+      text-transform:uppercase;
+      font-family:var(--mono);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .controls{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .mode-btn{
+      border:var(--line);
+      background:transparent;
+      color:var(--ink);
+      min-height:36px;
+      padding:0 14px;
+      font:600 14px/1 var(--font);
+      cursor:pointer;
+      border-radius:0;
+    }
+    .mode-btn[aria-pressed="true"]{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:var(--accent-on);
+    }
+
+    .hero{
+      min-height:76vh;
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
+      gap:clamp(32px,6vw,96px);
+      padding:clamp(64px,9vh,112px) var(--safe) clamp(44px,7vh,80px);
+      border-bottom:var(--line);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0H48M0 0V48' fill='none' stroke='%230a0a0a' stroke-opacity='.08' stroke-width='1'/%3E%3C/svg%3E");
+      background-size:48px 48px;
+      pointer-events:none;
+    }
+    .hero > *{position:relative}
+    .kicker{
+      margin:0 0 18px;
+      font:600 14px/1.2 var(--mono);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color:var(--accent);
+    }
+    h1{
+      margin:0;
+      font-size:min(8.6vw,15vh);
+      line-height:.92;
+      font-weight:200;
+      letter-spacing:0;
+      max-width:10ch;
+    }
+    .hero-lead{
+      margin:28px 0 0;
+      max-width:740px;
+      font-size:clamp(20px,1.65vw,28px);
+      font-weight:400;
+      line-height:1.42;
+    }
+    .hero-panel{
+      align-self:end;
+      border-left:8px solid var(--accent);
+      background:var(--ink);
+      color:var(--paper);
+      padding:28px;
+      display:grid;
+      gap:22px;
+    }
+    .meta-grid{
+      display:grid;
+      gap:16px;
+    }
+    .meta-item{
+      border-top:1px solid rgba(var(--paper-rgb),.36);
+      padding-top:12px;
+    }
+    .meta-label{
+      display:block;
+      font:600 13px/1.2 var(--mono);
+      text-transform:uppercase;
+      color:rgba(var(--paper-rgb),.68);
+      margin-bottom:8px;
+    }
+    .meta-value{
+      font-size:20px;
+      font-weight:500;
+    }
+
+    section.block{
+      padding:clamp(54px,8vh,96px) var(--safe);
+      border-bottom:var(--line);
+    }
+    .section-head{
+      display:grid;
+      grid-template-columns:minmax(220px,340px) minmax(0,1fr);
+      gap:clamp(28px,6vw,88px);
+      align-items:start;
+      margin-bottom:44px;
+    }
+    .section-num{
+      font:600 14px/1 var(--mono);
+      color:var(--grey-3);
+      text-transform:uppercase;
+      border-top:var(--line);
+      padding-top:14px;
+    }
+    h2{
+      margin:0;
+      font-size:min(5.8vw,10vh);
+      line-height:.98;
+      font-weight:220;
+      letter-spacing:0;
+    }
+    h3{
+      margin:0;
+      font-size:clamp(22px,2.2vw,34px);
+      line-height:1.08;
+      font-weight:360;
+      letter-spacing:0;
+    }
+    p{
+      margin:0;
+      font-size:18px;
+      font-weight:430;
+    }
+    .zh{color:var(--grey-3)}
+    body[data-lang="both"] p > .zh,
+    body[data-lang="both"] h2 > .zh,
+    body[data-lang="both"] h3 > .zh,
+    body[data-lang="both"] .meta-value > .zh{
+      display:block;
+      margin-top:.28em;
+    }
+    body[data-lang="both"] h1 > .zh{
+      display:block;
+      margin-top:20px;
+      font-size:.42em;
+      line-height:1.05;
+      color:var(--grey-3);
+    }
+    body[data-lang="en"] .zh{display:none!important}
+    body[data-lang="zh"] .en{display:none!important}
+    body[data-lang="zh"] .zh{color:var(--ink)}
+    body[data-lang="zh"] h1 > .zh{
+      display:block;
+      margin-top:0;
+      font-size:1em;
+      line-height:.98;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:24px;
+    }
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+    }
+    .grid-4{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+    }
+    .card{
+      border:var(--line);
+      background:var(--paper);
+      padding:24px;
+      min-height:170px;
+      display:grid;
+      gap:16px;
+      align-content:start;
+      border-radius:0;
+    }
+    .card.fill{
+      background:var(--grey-1);
+      border-color:var(--grey-2);
+    }
+    .card.accent{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:var(--accent-on);
+    }
+    .card.accent .zh{color:rgba(255,255,255,.76)}
+    .icon-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .icon-box{
+      width:38px;
+      height:38px;
+      border:var(--line);
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+    }
+    .card.accent .icon-box{border-color:rgba(255,255,255,.8)}
+    .icon-box svg{width:20px;height:20px;stroke-width:1.8}
+    .small{
+      font-size:16px;
+      font-weight:450;
+    }
+    .mono{
+      font-family:var(--mono);
+      font-weight:600;
+      text-transform:uppercase;
+      font-size:14px;
+      color:var(--grey-3);
+    }
+    .card.accent .mono{color:rgba(255,255,255,.7)}
+
+    .timeline{
+      display:grid;
+      gap:0;
+      border-top:var(--line);
+      border-bottom:var(--line);
+    }
+    .time-row{
+      display:grid;
+      grid-template-columns:140px minmax(0,1fr) minmax(0,1fr);
+      gap:24px;
+      padding:18px 0;
+      border-bottom:var(--hair);
+      align-items:start;
+    }
+    .time-row:last-child{border-bottom:0}
+    .time{
+      font:600 16px/1.2 var(--mono);
+      color:var(--accent);
+    }
+    .flow{
+      display:grid;
+      grid-template-columns:repeat(6,minmax(0,1fr));
+      border:var(--line);
+      background:var(--paper);
+    }
+    .flow-step{
+      min-height:154px;
+      padding:18px;
+      border-right:var(--line);
+      display:grid;
+      align-content:space-between;
+      gap:18px;
+    }
+    .flow-step:last-child{border-right:0}
+    .step-code{
+      font:min(4.8vw,74px)/.86 var(--font);
+      font-weight:200;
+      color:var(--accent);
+    }
+    .decision{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0;
+      border:var(--line);
+    }
+    .decision-half{
+      padding:30px;
+      display:grid;
+      gap:18px;
+    }
+    .decision-half + .decision-half{border-left:var(--line)}
+    .decision-half.dark{
+      background:var(--ink);
+      color:var(--paper);
+    }
+    .decision-half.dark .zh{color:rgba(var(--paper-rgb),.72)}
+
+    .sequence{
+      counter-reset:seq;
+      display:grid;
+      gap:12px;
+    }
+    .seq-item{
+      counter-increment:seq;
+      display:grid;
+      grid-template-columns:54px minmax(0,1fr);
+      gap:18px;
+      align-items:start;
+      border-top:var(--hair);
+      padding-top:16px;
+    }
+    .seq-item:before{
+      content:counter(seq, decimal-leading-zero);
+      font:600 16px/1 var(--mono);
+      color:var(--accent);
+    }
+    .rule-list{
+      display:grid;
+      gap:14px;
+    }
+    .rule{
+      display:grid;
+      grid-template-columns:28px minmax(0,1fr);
+      gap:14px;
+      align-items:start;
+    }
+    .rule svg{width:20px;height:20px;margin-top:3px;stroke:var(--accent)}
+    .script-box{
+      border-left:8px solid var(--accent);
+      background:var(--grey-1);
+      padding:26px;
+      display:grid;
+      gap:14px;
+    }
+    .quote{
+      font-size:clamp(24px,2.7vw,42px);
+      line-height:1.14;
+      font-weight:280;
+    }
+    .footer{
+      padding:34px var(--safe);
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:20px;
+      font:600 13px/1.3 var(--mono);
+      text-transform:uppercase;
+      color:var(--grey-3);
+    }
+
+    @media (max-width:980px){
+      .hero,
+      .section-head,
+      .grid-2,
+      .decision,
+      .footer{
+        grid-template-columns:1fr;
+      }
+      .grid-3,.grid-4{grid-template-columns:1fr 1fr}
+      .flow{grid-template-columns:1fr 1fr}
+      .flow-step{border-bottom:var(--line)}
+      .flow-step:nth-child(2n){border-right:0}
+      .time-row{grid-template-columns:1fr}
+      .decision-half + .decision-half{border-left:0;border-top:var(--line)}
+      .topbar{grid-template-columns:1fr}
+      .controls{overflow:auto}
+      h1{font-size:min(16vw,12vh)}
+      h2{font-size:min(11vw,8.8vh)}
+    }
+    @media (max-width:640px){
+      .grid-3,.grid-4,.flow{grid-template-columns:1fr}
+      .flow-step{border-right:0}
+      .hero-panel{padding:22px}
+      .card{min-height:0}
+      .mode-btn{padding:0 10px}
+    }
+    @media print{
+      .topbar{position:static}
+      .mode-btn{display:none}
+      section.block,.hero{break-inside:avoid}
+      body{background:white}
+    }
+  </style>
+</head>
+<body data-lang="both">
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <p class="brand-title">EFR + DSD Teaching Visual · 2026-06-08</p>
+      </div>
+      <nav class="controls" aria-label="Language display">
+        <button class="mode-btn" data-mode="both" aria-pressed="true">对照</button>
+        <button class="mode-btn" data-mode="en" aria-pressed="false">English</button>
+        <button class="mode-btn" data-mode="zh" aria-pressed="false">中文</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div>
+          <p class="kicker">POOL-SIDE CLASSROOM TO POOL · EFR / DSD</p>
+          <h1>
+            <span class="en">Respond before you dive</span>
+            <span class="zh">先会回应<br>再下水体验</span>
+          </h1>
+          <p class="hero-lead">
+            <span class="en">A visual instructor guide for a short English-first EFR briefing followed by a controlled Discover Scuba Diving pool session.</span>
+            <span class="zh">一份面向教练的可视化备课页：先用英文讲 EFR 核心，再进入泳池完成 DSD 体验。</span>
+          </p>
+        </div>
+        <aside class="hero-panel">
+          <div class="meta-grid">
+            <div class="meta-item">
+              <span class="meta-label">Class Date</span>
+              <div class="meta-value">2026-06-08</div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Teaching Mode</span>
+              <div class="meta-value">
+                <span class="en">English delivery, bilingual prep</span>
+                <span class="zh">英文授课，中英备课</span>
+              </div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Outcome</span>
+              <div class="meta-value">
+                <span class="en">Calm response + safe first underwater experience</span>
+                <span class="zh">冷静应急 + 安全水下初体验</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="block" id="flow">
+        <div class="section-head">
+          <div class="section-num">01 · Class Flow</div>
+          <h2>
+            <span class="en">Three-hour teaching arc</span>
+            <span class="zh">三小时课程弧线</span>
+          </h2>
+        </div>
+        <div class="timeline">
+          <div class="time-row">
+            <div class="time">0:00-0:10</div>
+            <div><h3><span class="en">Welcome and paperwork check</span><span class="zh">欢迎和表格检查</span></h3></div>
+            <p><span class="en">Confirm readiness and set expectations.</span><span class="zh">确认准备情况，并建立今天的课程预期。</span></p>
+          </div>
+          <div class="time-row">
+            <div class="time">0:10-1:30</div>
+            <div><h3><span class="en">EFR classroom briefing</span><span class="zh">EFR 教室讲解</span></h3></div>
+            <p><span class="en">First responder mindset, Chain of Survival, primary assessment, AB-CABS, CPR and AED.</span><span class="zh">第一反应员心态、生命线循环、首要评估、AB-CABS、CPR 与 AED。</span></p>
+          </div>
+          <div class="time-row">
+            <div class="time">1:30-1:40</div>
+            <div><h3><span class="en">Break and transition</span><span class="zh">休息与转场</span></h3></div>
+            <p><span class="en">Hydrate, reset attention, change for pool.</span><span class="zh">补水、重新集中注意力，换装进入泳池。</span></p>
+          </div>
+          <div class="time-row">
+            <div class="time">1:40-3:00</div>
+            <div><h3><span class="en">DSD pool experience</span><span class="zh">DSD 泳池体验</span></h3></div>
+            <p><span class="en">Briefing, shallow-water skills, guided swim, debrief.</span><span class="zh">水肺简报、浅水技巧、带领游动、课后总结。</span></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="mindset">
+        <div class="section-head">
+          <div class="section-num">02 · First Responder</div>
+          <h2>
+            <span class="en">Your job is not to be a doctor</span>
+            <span class="zh">第一反应员不是医生</span>
+          </h2>
+        </div>
+        <div class="grid-3">
+          <article class="card accent">
+            <div class="icon-row"><span class="icon-box"><i data-lucide="shield-check"></i></span><span class="mono">Protect</span></div>
+            <h3><span class="en">Check scene safety first</span><span class="zh">先检查现场安全</span></h3>
+            <p class="small"><span class="en">Do not rush into danger. Look, listen, and think before acting.</span><span class="zh">不要冲进危险。行动前先观察、聆听、思考。</span></p>
+          </article>
+          <article class="card fill">
+            <div class="icon-row"><span class="icon-box"><i data-lucide="phone-call"></i></span><span class="mono">Activate</span></div>
+            <h3><span class="en">Call EMS early</span><span class="zh">尽早启动 EMS</span></h3>
+            <p class="small"><span class="en">Give bystanders clear jobs: call emergency services, bring the AED, guide EMS.</span><span class="zh">给旁观者明确任务：打急救电话、拿 AED、引导急救人员。</span></p>
+          </article>
+          <article class="card fill">
+            <div class="icon-row"><span class="icon-box"><i data-lucide="hand-heart"></i></span><span class="mono">Care</span></div>
+            <h3><span class="en">Provide care within training</span><span class="zh">在训练范围内照护</span></h3>
+            <p class="small"><span class="en">Continue until relieved, unsafe, exhausted, or the patient recovers.</span><span class="zh">持续照护，直到有人接替、现场不安全、自己耗尽，或患者恢复。</span></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="survival">
+        <div class="section-head">
+          <div class="section-num">03 · Chain of Survival</div>
+          <h2>
+            <span class="en">Survival is a chain, not one action</span>
+            <span class="zh">生存靠链条，不靠单一步骤</span>
+          </h2>
+        </div>
+        <div class="flow" aria-label="Chain of Survival">
+          <div class="flow-step">
+            <div class="step-code">01</div>
+            <div><h3><span class="en">Recognize</span><span class="zh">识别</span></h3><p class="small"><span class="en">Emergency exists.</span><span class="zh">确认紧急情况存在。</span></p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-code">02</div>
+            <div><h3><span class="en">Activate</span><span class="zh">启动</span></h3><p class="small"><span class="en">Call EMS and send for AED.</span><span class="zh">呼叫 EMS，并派人取 AED。</span></p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-code">03</div>
+            <div><h3><span class="en">CPR</span><span class="zh">CPR</span></h3><p class="small"><span class="en">Keep blood moving.</span><span class="zh">让血液继续循环。</span></p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-code">04</div>
+            <div><h3><span class="en">AED</span><span class="zh">AED</span></h3><p class="small"><span class="en">Shock if advised.</span><span class="zh">如建议电击则电击。</span></p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-code">05</div>
+            <div><h3><span class="en">Professionals</span><span class="zh">专业照护</span></h3><p class="small"><span class="en">Hand over clearly.</span><span class="zh">清楚交接。</span></p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-code">06</div>
+            <div><h3><span class="en">Recovery</span><span class="zh">恢复</span></h3><p class="small"><span class="en">Monitor and support.</span><span class="zh">监测并支持恢复。</span></p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="primary">
+        <div class="section-head">
+          <div class="section-num">04 · Primary Assessment</div>
+          <h2>
+            <span class="en">First check: life threats</span>
+            <span class="zh">第一轮检查：危及生命的问题</span>
+          </h2>
+        </div>
+        <div class="grid-2">
+          <div class="script-box">
+            <p class="quote"><span class="en">Primary means first and most important. Assessment means evaluation.</span><span class="zh">Primary 是第一、最重要。Assessment 是评估。</span></p>
+            <p><span class="en">We are not diagnosing everything. We are asking: safe scene, responsive patient, normal breathing, need for CPR/AED or urgent care.</span><span class="zh">我们不是诊断所有问题，而是在问：现场安全吗？患者有反应吗？呼吸正常吗？是否需要 CPR/AED 或紧急照护？</span></p>
+          </div>
+          <div class="sequence">
+            <div class="seq-item"><p><span class="en">Danger: check hazards and protect yourself.</span><span class="zh">危险：检查风险，先保护自己。</span></p></div>
+            <div class="seq-item"><p><span class="en">Response: tap, speak, and use the responder statement.</span><span class="zh">反应：轻拍、呼喊，并使用第一反应员声明。</span></p></div>
+            <div class="seq-item"><p><span class="en">Send: call EMS and send for AED.</span><span class="zh">呼叫：启动 EMS，并派人取 AED。</span></p></div>
+            <div class="seq-item"><p><span class="en">Airway and Breathing: gasping is not normal breathing.</span><span class="zh">气道与呼吸：濒死喘息不是正常呼吸。</span></p></div>
+            <div class="seq-item"><p><span class="en">CPR/AED: act immediately when unresponsive and not breathing normally.</span><span class="zh">CPR/AED：无反应且无正常呼吸时立刻行动。</span></p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="abcabs">
+        <div class="section-head">
+          <div class="section-num">05 · AB-CABS</div>
+          <h2>
+            <span class="en">A memory word for the care pathway</span>
+            <span class="zh">用一个记忆词串起照护路径</span>
+          </h2>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <span class="step-code">A/B</span>
+            <h3><span class="en">Airway and breathing</span><span class="zh">气道与呼吸</span></h3>
+            <p><span class="en">Is the airway open? Is the patient breathing normally?</span><span class="zh">气道是否打开？患者呼吸是否正常？</span></p>
+          </article>
+          <article class="card accent">
+            <span class="step-code" style="color:var(--accent-on)">CAB</span>
+            <h3><span class="en">CPR cycle</span><span class="zh">CPR 循环</span></h3>
+            <p><span class="en">Chest compressions, airway, breaths. CPR takes priority.</span><span class="zh">胸外按压、打开气道、人工呼吸。CPR 优先。</span></p>
+          </article>
+          <article class="card">
+            <span class="step-code">S</span>
+            <h3><span class="en">Serious threats</span><span class="zh">严重威胁</span></h3>
+            <p><span class="en">Manage serious bleeding, shock, and spinal concerns.</span><span class="zh">处理严重出血、休克和脊柱疑虑。</span></p>
+          </article>
+        </div>
+        <div style="height:28px"></div>
+        <div class="script-box">
+          <p class="quote"><span class="en">Check → Decide → Act → Recheck → Continue</span><span class="zh">检查 → 判断 → 行动 → 再检查 → 持续照护</span></p>
+          <p><span class="en">The Cycle of Care means you continue moving through priorities until professional help arrives, the AED is ready, you are relieved, the scene becomes unsafe, or the patient recovers.</span><span class="zh">照护循环的意思是：你持续按照优先顺序行动，直到专业救援到达、AED 准备好、有人接替、现场不安全，或患者恢复。</span></p>
+        </div>
+      </section>
+
+      <section class="block" id="water">
+        <div class="section-head">
+          <div class="section-num">06 · Drowning Focus</div>
+          <h2>
+            <span class="en">Water emergencies are breathing emergencies</span>
+            <span class="zh">水中事故首先是呼吸问题</span>
+          </h2>
+        </div>
+        <div class="decision">
+          <div class="decision-half">
+            <p class="mono">Call First</p>
+            <h3><span class="en">Most adult cardiac emergencies</span><span class="zh">大多数成人心脏类紧急情况</span></h3>
+            <p><span class="en">Activate EMS first, then provide care. Use a phone on speaker if alone.</span><span class="zh">先启动 EMS，再提供照护。如果独自一人，用手机免提。</span></p>
+          </div>
+          <div class="decision-half dark">
+            <p class="mono">Care First</p>
+            <h3><span class="en">Submersion, drowning, children, infants</span><span class="zh">浸没、溺水、儿童、婴儿</span></h3>
+            <p><span class="en">Provide a short period of CPR, especially rescue breaths, then call EMS and retrieve AED if close by.</span><span class="zh">先进行一小段 CPR，特别重视人工呼吸，然后呼叫 EMS，并在附近有 AED 时取得 AED。</span></p>
+          </div>
+        </div>
+        <div style="height:28px"></div>
+        <div class="script-box">
+          <p class="quote"><span class="en">Once safe and out of the water, breathing is the priority.</span><span class="zh">一旦安全并离开水面，呼吸就是优先事项。</span></p>
+          <p><span class="en">If they are unresponsive and not breathing normally, we need rescue breaths and CPR, and we need EMS as early as possible.</span><span class="zh">如果对方没有反应且没有正常呼吸，我们需要人工呼吸和 CPR，也要尽早启动 EMS。</span></p>
+        </div>
+      </section>
+
+      <section class="block" id="cpraed">
+        <div class="section-head">
+          <div class="section-num">07 · CPR / AED</div>
+          <h2>
+            <span class="en">Demonstrate the sequence, not perfection</span>
+            <span class="zh">演示顺序，不追求完美</span>
+          </h2>
+        </div>
+        <div class="grid-2">
+          <div>
+            <h3><span class="en">CPR practice script</span><span class="zh">CPR 练习讲稿</span></h3>
+            <div style="height:20px"></div>
+            <div class="sequence">
+              <div class="seq-item"><p><span class="en">Check the scene. Is it safe?</span><span class="zh">检查现场。安全吗？</span></p></div>
+              <div class="seq-item"><p><span class="en">Tap and shout: Are you OK?</span><span class="zh">轻拍并呼喊：你还好吗？</span></p></div>
+              <div class="seq-item"><p><span class="en">Call EMS. Bring the AED.</span><span class="zh">呼叫 EMS。拿 AED。</span></p></div>
+              <div class="seq-item"><p><span class="en">Open airway, check breathing, start CPR if needed.</span><span class="zh">打开气道，检查呼吸，必要时开始 CPR。</span></p></div>
+              <div class="seq-item"><p><span class="en">Push hard and fast. Minimize pauses.</span><span class="zh">用力、快速按压。尽量减少停顿。</span></p></div>
+            </div>
+          </div>
+          <div>
+            <h3><span class="en">AED safety line</span><span class="zh">AED 安全线</span></h3>
+            <div style="height:20px"></div>
+            <div class="rule-list">
+              <div class="rule"><i data-lucide="power"></i><p><span class="en">Turn it on and follow the voice prompts.</span><span class="zh">打开 AED，并跟随语音提示。</span></p></div>
+              <div class="rule"><i data-lucide="hand"></i><p><span class="en">Do not touch during analysis or shock.</span><span class="zh">分析或电击时不要接触患者。</span></p></div>
+              <div class="rule"><i data-lucide="droplets"></i><p><span class="en">Dry the chest pad area if the patient is wet.</span><span class="zh">患者身上有水时，擦干贴片区域。</span></p></div>
+              <div class="rule"><i data-lucide="rotate-ccw"></i><p><span class="en">Resume CPR immediately when instructed.</span><span class="zh">设备提示后，立即恢复 CPR。</span></p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="dsd">
+        <div class="section-head">
+          <div class="section-num">08 · Pool Session</div>
+          <h2>
+            <span class="en">DSD: calm, close, controlled</span>
+            <span class="zh">DSD：冷静、靠近、可控</span>
+          </h2>
+        </div>
+        <div class="grid-4">
+          <article class="card accent">
+            <div class="icon-row"><span class="icon-box"><i data-lucide="wind"></i></span><span class="mono">Rule 01</span></div>
+            <h3><span class="en">Breathe continuously</span><span class="zh">持续呼吸</span></h3>
+            <p class="small"><span class="en">Never hold your breath. Stop, breathe, look at me, signal.</span><span class="zh">绝不憋气。停下、呼吸、看教练、打手势。</span></p>
+          </article>
+          <article class="card fill">
+            <div class="icon-row"><span class="icon-box"><i data-lucide="ear"></i></span><span class="mono">Rule 02</span></div>
+            <h3><span class="en">Equalize early</span><span class="zh">尽早平衡耳压</span></h3>
+            <p class="small"><span class="en">Do not force it. Signal and go shallower if needed.</span><span class="zh">不要硬顶。必要时打手势并回浅。</span></p>
+          </article>
+          <article class="card fill">
+            <div class="icon-row"><span class="icon-box"><i data-lucide="move-horizontal"></i></span><span class="mono">Rule 03</span></div>
+            <h3><span class="en">Stay close</span><span class="zh">靠近教练</span></h3>
+            <p class="small"><span class="en">This is a supervised experience, not independent diving.</span><span class="zh">这是受监督体验，不是独立潜水。</span></p>
+          </article>
+          <article class="card fill">
+            <div class="icon-row"><span class="icon-box"><i data-lucide="message-circle"></i></span><span class="mono">Rule 04</span></div>
+            <h3><span class="en">Signal clearly</span><span class="zh">清楚打手势</span></h3>
+            <p class="small"><span class="en">OK, problem, up, down, stop, slow, equalize.</span><span class="zh">OK、有问题、上升、下潜、停止、慢一点、平衡耳压。</span></p>
+          </article>
+        </div>
+        <div style="height:28px"></div>
+        <div class="grid-2">
+          <div class="script-box">
+            <p class="quote"><span class="en">You are allowed to pause at any time.</span><span class="zh">你可以随时暂停。</span></p>
+            <p><span class="en">A pause is not a failure. Signal me, breathe slowly, and we solve one thing at a time.</span><span class="zh">暂停不是失败。给我手势，慢慢呼吸，我们一次解决一个问题。</span></p>
+          </div>
+          <div class="sequence">
+            <div class="seq-item"><p><span class="en">Regulator breathing while standing or kneeling.</span><span class="zh">站立或跪姿用调节器呼吸。</span></p></div>
+            <div class="seq-item"><p><span class="en">Face in water breathing and equalization practice.</span><span class="zh">脸入水后持续呼吸，并练习平衡耳压。</span></p></div>
+            <div class="seq-item"><p><span class="en">Regulator clearing and recovery.</span><span class="zh">二级头排水和找回二级头。</span></p></div>
+            <div class="seq-item"><p><span class="en">Mask clearing as required.</span><span class="zh">按要求完成面镜排水。</span></p></div>
+            <div class="seq-item"><p><span class="en">Short swim under direct instructor control.</span><span class="zh">在教练直接控制下短距离游动。</span></p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="close">
+        <div class="section-head">
+          <div class="section-num">09 · Debrief</div>
+          <h2>
+            <span class="en">One shared mindset</span>
+            <span class="zh">两件事，一个心态</span>
+          </h2>
+        </div>
+        <div class="script-box">
+          <p class="quote"><span class="en">Emergency response and scuba both rely on simple procedures, practice, and clear communication.</span><span class="zh">紧急反应和水肺潜水都依赖简单流程、练习和清楚沟通。</span></p>
+          <p><span class="en">In EFR, students learn how to respond instead of freeze. In DSD, they learn how to stay calm underwater: breathe continuously, equalize, signal, and stay with the instructor.</span><span class="zh">在 EFR 中，学员学习如何回应，而不是僵住。在 DSD 中，他们学习如何在水下保持冷静：持续呼吸、平衡耳压、打手势，并靠近教练。</span></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Source: 2026-06-08 EFR and DSD English Lesson Prep.md</span>
+      <span>Local HTML · Swiss visual guide</span>
+    </footer>
+  </div>
+
+  <script>
+    const buttons = Array.from(document.querySelectorAll(".mode-btn"));
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.mode;
+        document.body.dataset.lang = mode;
+        buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+    if (window.lucide) lucide.createIcons();
+  </script>
+</body>
+</html>
