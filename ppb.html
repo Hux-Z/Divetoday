@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>顶尖中性浮力 · Teaching Visual</title>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root{
+      --paper:#fafaf8;
+      --paper-rgb:250,250,248;
+      --ink:#0a0a0a;
+      --ink-rgb:10,10,10;
+      --grey-1:#f0f0ee;
+      --grey-2:#d4d4d2;
+      --grey-3:#737373;
+      --accent:#002FA7;
+      --accent-rgb:0,47,167;
+      --accent-on:#ffffff;
+      --safe:clamp(20px,5vw,72px);
+      --line:1px solid var(--ink);
+      --hair:1px solid var(--grey-2);
+      --font:Inter, Helvetica, Arial, "PingFang SC", "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+      --mono:"SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:var(--font);
+      letter-spacing:0;
+      line-height:1.45;
+    }
+    a{color:inherit}
+    img{display:block;max-width:100%;height:auto}
+    .page{min-height:100vh}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:20px;
+      padding:14px var(--safe);
+      border-bottom:var(--line);
+      background:rgba(var(--paper-rgb),.94);
+      backdrop-filter:blur(14px);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .brand-mark{
+      width:16px;
+      height:16px;
+      background:var(--accent);
+      flex:0 0 auto;
+    }
+    .brand-title{
+      margin:0;
+      font-size:14px;
+      font-weight:700;
+      text-transform:uppercase;
+      font-family:var(--mono);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      letter-spacing:0;
+    }
+    .controls{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      overflow:auto;
+    }
+    .mode-btn,
+    .nav-link{
+      border:var(--line);
+      background:transparent;
+      color:var(--ink);
+      min-height:36px;
+      padding:0 14px;
+      font:700 14px/1 var(--font);
+      cursor:pointer;
+      border-radius:0;
+      white-space:nowrap;
+      text-decoration:none;
+      display:inline-grid;
+      place-items:center;
+      letter-spacing:0;
+    }
+    .mode-btn[aria-pressed="true"],
+    .nav-link:hover{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:var(--accent-on);
+    }
+
+    .hero{
+      min-height:78vh;
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);
+      gap:clamp(32px,6vw,96px);
+      padding:clamp(64px,9vh,112px) var(--safe) clamp(44px,7vh,80px);
+      border-bottom:var(--line);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0H48M0 0V48' fill='none' stroke='%230a0a0a' stroke-opacity='.08' stroke-width='1'/%3E%3C/svg%3E");
+      background-size:48px 48px;
+      pointer-events:none;
+    }
+    .hero > *{position:relative}
+    .kicker{
+      margin:0 0 18px;
+      font:700 14px/1.2 var(--mono);
+      letter-spacing:0;
+      text-transform:uppercase;
+      color:var(--accent);
+    }
+    h1{
+      margin:0;
+      font-size:min(8.3vw,14vh);
+      line-height:.94;
+      font-weight:220;
+      letter-spacing:0;
+      max-width:11ch;
+    }
+    .hero-lead{
+      margin:28px 0 0;
+      max-width:760px;
+      font-size:clamp(20px,1.65vw,28px);
+      font-weight:430;
+      line-height:1.42;
+    }
+    .hero-panel{
+      align-self:end;
+      border-left:8px solid var(--accent);
+      background:var(--ink);
+      color:var(--paper);
+      padding:28px;
+      display:grid;
+      gap:22px;
+    }
+    .meta-grid{display:grid;gap:16px}
+    .meta-item{
+      border-top:1px solid rgba(var(--paper-rgb),.36);
+      padding-top:12px;
+    }
+    .meta-label{
+      display:block;
+      font:700 13px/1.2 var(--mono);
+      text-transform:uppercase;
+      color:rgba(var(--paper-rgb),.68);
+      margin-bottom:8px;
+      letter-spacing:0;
+    }
+    .meta-value{
+      font-size:20px;
+      font-weight:520;
+    }
+    .hero-photo{
+      margin:0;
+      border:var(--line);
+      background:var(--paper);
+    }
+    .hero-photo img{
+      width:100%;
+      aspect-ratio:16/10;
+      object-fit:cover;
+      border-bottom:var(--line);
+    }
+    .caption{
+      padding:10px 12px;
+      font:700 12px/1.3 var(--mono);
+      text-transform:uppercase;
+      color:var(--grey-3);
+      letter-spacing:0;
+    }
+
+    section.block{
+      padding:clamp(54px,8vh,96px) var(--safe);
+      border-bottom:var(--line);
+    }
+    section[id]{scroll-margin-top:86px}
+    .section-head{
+      display:grid;
+      grid-template-columns:minmax(220px,340px) minmax(0,1fr);
+      gap:clamp(28px,6vw,88px);
+      align-items:start;
+      margin-bottom:44px;
+    }
+    .section-num{
+      font:700 14px/1 var(--mono);
+      color:var(--grey-3);
+      text-transform:uppercase;
+      border-top:var(--line);
+      padding-top:14px;
+      letter-spacing:0;
+    }
+    h2{
+      margin:0;
+      font-size:min(5.7vw,9.8vh);
+      line-height:1;
+      font-weight:240;
+      letter-spacing:0;
+    }
+    h3{
+      margin:0;
+      font-size:clamp(22px,2.2vw,34px);
+      line-height:1.08;
+      font-weight:420;
+      letter-spacing:0;
+    }
+    p{
+      margin:0;
+      font-size:18px;
+      font-weight:430;
+    }
+    .zh{color:var(--grey-3)}
+    body[data-lang="both"] p > .zh,
+    body[data-lang="both"] h2 > .zh,
+    body[data-lang="both"] h3 > .zh,
+    body[data-lang="both"] .meta-value > .zh{
+      display:block;
+      margin-top:.28em;
+    }
+    body[data-lang="both"] h1 > .zh{
+      display:block;
+      margin-top:20px;
+      font-size:.42em;
+      line-height:1.05;
+      color:var(--grey-3);
+    }
+    body[data-lang="en"] .zh{display:none!important}
+    body[data-lang="zh"] .en{display:none!important}
+    body[data-lang="zh"] .zh{color:var(--ink)}
+    body[data-lang="zh"] h1 > .zh{
+      display:block;
+      margin-top:0;
+      font-size:1em;
+      line-height:.98;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:24px;
+    }
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+    }
+    .grid-4{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+    }
+    .card{
+      border:var(--line);
+      background:var(--paper);
+      padding:24px;
+      min-height:170px;
+      display:grid;
+      gap:16px;
+      align-content:start;
+      border-radius:0;
+    }
+    .card.fill{
+      background:var(--grey-1);
+      border-color:var(--grey-2);
+    }
+    .card.accent{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:var(--accent-on);
+    }
+    .card.accent .zh{color:rgba(255,255,255,.76)}
+    .icon-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .icon-box{
+      width:38px;
+      height:38px;
+      border:var(--line);
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+    }
+    .card.accent .icon-box{border-color:rgba(255,255,255,.8)}
+    .icon-box svg{width:20px;height:20px;stroke-width:1.8}
+    .small{
+      font-size:16px;
+      font-weight:450;
+    }
+    .mono{
+      font-family:var(--mono);
+      font-weight:700;
+      text-transform:uppercase;
+      font-size:14px;
+      color:var(--grey-3);
+      letter-spacing:0;
+    }
+    .card.accent .mono{color:rgba(255,255,255,.72)}
+
+    .timeline{
+      display:grid;
+      gap:0;
+      border-top:var(--line);
+      border-bottom:var(--line);
+    }
+    .time-row{
+      display:grid;
+      grid-template-columns:140px minmax(0,1fr) minmax(0,1fr);
+      gap:24px;
+      padding:18px 0;
+      border-bottom:var(--hair);
+      align-items:start;
+    }
+    .time-row:last-child{border-bottom:0}
+    .time{
+      font:700 16px/1.2 var(--mono);
+      color:var(--accent);
+      letter-spacing:0;
+    }
+    .flow{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      border:var(--line);
+      background:var(--paper);
+    }
+    .flow-step{
+      min-height:154px;
+      padding:18px;
+      border-right:var(--line);
+      display:grid;
+      align-content:space-between;
+      gap:18px;
+    }
+    .flow-step:last-child{border-right:0}
+    .step-code{
+      font:min(4.8vw,74px)/.86 var(--font);
+      font-weight:220;
+      color:var(--accent);
+      letter-spacing:0;
+    }
+    .decision{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0;
+      border:var(--line);
+    }
+    .decision-half{
+      padding:30px;
+      display:grid;
+      gap:18px;
+    }
+    .decision-half + .decision-half{border-left:var(--line)}
+    .decision-half.dark{
+      background:var(--ink);
+      color:var(--paper);
+    }
+    .decision-half.dark .zh{color:rgba(var(--paper-rgb),.72)}
+
+    .sequence{
+      counter-reset:seq;
+      display:grid;
+      gap:12px;
+    }
+    .seq-item{
+      counter-increment:seq;
+      display:grid;
+      grid-template-columns:54px minmax(0,1fr);
+      gap:18px;
+      align-items:start;
+      border-top:var(--hair);
+      padding-top:16px;
+    }
+    .seq-item:before{
+      content:counter(seq, decimal-leading-zero);
+      font:700 16px/1 var(--mono);
+      color:var(--accent);
+      letter-spacing:0;
+    }
+    .script-box{
+      border-left:8px solid var(--accent);
+      background:var(--grey-1);
+      padding:26px;
+      display:grid;
+      gap:14px;
+    }
+    .quote{
+      font-size:clamp(24px,2.7vw,42px);
+      line-height:1.14;
+      font-weight:300;
+    }
+    .image-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+    }
+    .image-card{
+      border:var(--line);
+      background:var(--paper);
+      display:grid;
+      align-content:start;
+    }
+    .image-card img{
+      width:100%;
+      aspect-ratio:4/3;
+      object-fit:contain;
+      background:white;
+      border-bottom:var(--line);
+    }
+    .image-card.photo img{object-fit:cover}
+    .image-body{
+      padding:18px;
+      display:grid;
+      gap:10px;
+    }
+    .video-list{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+    }
+    .resource{
+      border:var(--line);
+      background:var(--grey-1);
+      padding:20px;
+      min-height:150px;
+      display:grid;
+      align-content:space-between;
+      text-decoration:none;
+    }
+    .resource:hover{
+      background:var(--accent);
+      color:var(--accent-on);
+      border-color:var(--accent);
+    }
+    .footer{
+      padding:34px var(--safe);
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:20px;
+      font:700 13px/1.3 var(--mono);
+      text-transform:uppercase;
+      color:var(--grey-3);
+      letter-spacing:0;
+    }
+
+    @media (max-width:980px){
+      .hero,
+      .section-head,
+      .grid-2,
+      .decision,
+      .footer{
+        grid-template-columns:1fr;
+      }
+      .grid-3,.grid-4,.image-grid,.video-list{grid-template-columns:1fr 1fr}
+      .flow{grid-template-columns:1fr 1fr}
+      .flow-step{border-bottom:var(--line)}
+      .flow-step:nth-child(2n){border-right:0}
+      .time-row{grid-template-columns:1fr}
+      .decision-half + .decision-half{border-left:0;border-top:var(--line)}
+      .topbar{grid-template-columns:1fr}
+      h1{font-size:min(16vw,12vh)}
+      h2{font-size:min(11vw,8.8vh)}
+    }
+    @media (max-width:640px){
+      .grid-3,.grid-4,.flow,.image-grid,.video-list{grid-template-columns:1fr}
+      .flow-step{border-right:0}
+      .hero-panel{padding:22px}
+      .card,.resource{min-height:0}
+      .mode-btn,.nav-link{padding:0 10px}
+    }
+    @media print{
+      .topbar{position:static}
+      .mode-btn,.nav-link{display:none}
+      section.block,.hero{break-inside:avoid}
+      body{background:white}
+    }
+  </style>
+</head>
+<body data-lang="both">
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <p class="brand-title">Peak Buoyancy Teaching Visual</p>
+      </div>
+      <nav class="controls" aria-label="Display controls">
+        <button class="mode-btn" data-mode="both" aria-pressed="true">对照</button>
+        <button class="mode-btn" data-mode="en" aria-pressed="false">English</button>
+        <button class="mode-btn" data-mode="zh" aria-pressed="false">中文</button>
+        <a class="nav-link" href="index.html">← 首页</a>
+        <a class="nav-link" href="#images">图片</a>
+        <a class="nav-link" href="#videos">视频</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div>
+          <p class="kicker">WEIGHT / BREATH / BCD / TRIM / STREAMLINE</p>
+          <h1>
+            <span class="en">Peak Performance Buoyancy</span>
+            <span class="zh">顶尖中性浮力</span>
+          </h1>
+          <p class="hero-lead">
+            <span class="en">This class is not only about looking horizontal. It is about correct weighting, small BCD inputs, breathing control, trim, streamline, visualization, and low-impact diving.</span>
+            <span class="zh">这门课不只是“姿态水平”。它要训练正确配重、BCD 小幅调整、呼吸微调、身体平衡、流线型、心理预演和低干扰潜水。</span>
+          </p>
+        </div>
+        <aside class="hero-panel">
+          <figure class="hero-photo">
+            <img src="https://divecampus.com/cdn/shop/articles/perfecting-your-buoyancy-trim-748852_1200x660.jpg?v=1704988345" alt="A diver maintaining neutral trim near a reef">
+            <figcaption class="caption">Online image · DiveCampus buoyancy and trim article</figcaption>
+          </figure>
+          <div class="meta-grid">
+            <div class="meta-item">
+              <span class="meta-label">Course Outcome</span>
+              <div class="meta-value">
+                <span class="en">Stable hover, efficient movement, less contact with the environment</span>
+                <span class="zh">稳定悬停、有效移动、减少触碰环境</span>
+              </div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Instructor Line</span>
+              <div class="meta-value">
+                <span class="en">Good buoyancy looks quiet because the system is balanced.</span>
+                <span class="zh">好的中性浮力看起来安静，因为整个系统是平衡的。</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="block" id="map">
+        <div class="section-head">
+          <div class="section-num">01 · Course Map</div>
+          <h2>
+            <span class="en">The complete class Contents</span>
+            <span class="zh">核心课程内容</span>
+          </h2>
+        </div>
+        <div class="grid-4">
+          <article class="card accent"><p class="mono">01</p><h3><span class="en">Why refine buoyancy</span><span class="zh">为什么要精进浮力</span></h3><p class="small"><span class="en">Less effort, longer dives, better awareness, lower environmental impact.</span><span class="zh">更省力、更久、更容易观察、更少影响环境。</span></p></article>
+          <article class="card fill"><p class="mono">02</p><h3><span class="en">Weight check</span><span class="zh">浮力检查</span></h3><p class="small"><span class="en">Start with a real check, not guesswork or “more lead feels safer.”</span><span class="zh">用实际检查开始，而不是靠猜或“多带比较安心”。</span></p></article>
+          <article class="card fill"><p class="mono">03</p><h3><span class="en">Fine-tune buoyancy</span><span class="zh">微调浮力</span></h3><p class="small"><span class="en">BCD for larger changes, breathing for small corrections.</span><span class="zh">BCD 负责粗调，呼吸负责微调。</span></p></article>
+          <article class="card fill"><p class="mono">04</p><h3><span class="en">Weight distribution</span><span class="zh">配重分布</span></h3><p class="small"><span class="en">Move weight and cylinder position to balance the body.</span><span class="zh">通过配重和气瓶位置帮助身体平衡。</span></p></article>
+          <article class="card fill"><p class="mono">05</p><h3><span class="en">Streamline</span><span class="zh">流线型</span></h3><p class="small"><span class="en">Secure hoses, gauges, accessories, and reduce drag.</span><span class="zh">固定管线、仪表和附件，减少阻力。</span></p></article>
+          <article class="card fill"><p class="mono">06</p><h3><span class="en">Visualization</span><span class="zh">想像技巧</span></h3><p class="small"><span class="en">Rehearse calm breathing, descent, hover, and ascent before doing them.</span><span class="zh">下水前预演慢呼吸、下潜、悬停和上升。</span></p></article>
+          <article class="card fill"><p class="mono">07</p><h3><span class="en">Fitness link</span><span class="zh">身体状态关联</span></h3><p class="small"><span class="en">Fatigue and fast breathing make buoyancy harder to control.</span><span class="zh">疲劳和急促呼吸会让浮力更难控制。</span></p></article>
+          <article class="card fill"><p class="mono">08</p><h3><span class="en">Training dives</span><span class="zh">训练潜水</span></h3><p class="small"><span class="en">Hover. Applies control while moving.</span><span class="zh">悬浮、踢法、控制</span></p></article>
+        </div>
+      </section>
+
+      <section class="block" id="why">
+        <div class="section-head">
+          <div class="section-num">02 · Motivation</div>
+          <h2>
+            <span class="en">Better buoyancy changes the whole dive</span>
+            <span class="zh">浮力变好，整潜都变了</span>
+          </h2>
+        </div>
+        <div class="grid-3">
+          <article class="card accent"><div class="icon-row"><span class="icon-box"><i data-lucide="battery-charging"></i></span><span class="mono">Efficiency</span></div><h3><span class="en">Less effort, less gas</span><span class="zh">更省力，更省气</span></h3><p class="small"><span class="en">Quiet divers make fewer corrections and waste less energy.</span><span class="zh">安静的潜水员修正更少，浪费的体力更少。</span></p></article>
+          <article class="card fill"><div class="icon-row"><span class="icon-box"><i data-lucide="fish"></i></span><span class="mono">Observation</span></div><h3><span class="en">Stay close without chasing</span><span class="zh">靠近观察，不追逐</span></h3><p class="small"><span class="en">Stable divers can approach, stop, and back away smoothly.</span><span class="zh">稳定的潜水员能平顺接近、停住、离开。</span></p></article>
+          <article class="card fill"><div class="icon-row"><span class="icon-box"><i data-lucide="leaf"></i></span><span class="mono">Environment</span></div><h3><span class="en">Protect visibility and bottom life</span><span class="zh">保护能见度和底栖环境</span></h3><p class="small"><span class="en">No finning sand, no dangling gear, no hand grabs.</span><span class="zh">不踢沙、不拖垂、不用手抓环境。</span></p></article>
+        </div>
+      </section>
+
+      <section class="block" id="weight-check">
+        <div class="section-head">
+          <div class="section-num">03 · Weight Check</div>
+          <h2>
+            <span class="en">Correct weight is a measurement, not a feeling</span>
+            <span class="zh">正确配重是测出来的，不是感觉出来的</span>
+          </h2>
+        </div>
+        <div class="grid-2">
+          <div class="script-box">
+            <p class="quote"><span class="en">Being able to descend does not prove the weight is correct.</span><span class="zh">能下去，不代表配重正确。</span></p>
+            <p><span class="en">Too much lead forces more gas into the BCD. More gas means bigger volume changes with depth, and the diver starts chasing buoyancy.</span><span class="zh">配重过重会迫使 BCD 里有更多气。气越多，深度变化时体积变化越明显，学员就会一直追着浮力跑。</span></p>
+          </div>
+          <div class="sequence">
+            <div class="seq-item"><p><span class="en">Wear the actual exposure suit, cylinder, BCD, regulator, and accessories.</span><span class="zh">穿戴本次实际使用的防寒衣、气瓶、BCD、调节器和附件。</span></p></div>
+            <div class="seq-item"><p><span class="en">Move to water deep enough to float safely.</span><span class="zh">到足够漂浮且安全的水深。</span></p></div>
+            <div class="seq-item"><p><span class="en">Empty the BCD and breathe normally.</span><span class="zh">BCD 排空，保持正常呼吸。</span></p></div>
+            <div class="seq-item"><p><span class="en">Adjust weight until surface position is correct.</span><span class="zh">微调配重，直到水面漂浮位置合适。</span></p></div>
+            <div class="seq-item"><p><span class="en">Exhale and confirm a slow, controlled sink.</span><span class="zh">呼气后确认能缓慢、受控地下沉。</span></p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="fine-tune">
+        <div class="section-head">
+          <div class="section-num">04 · Fine Tuning</div>
+          <h2>
+            <span class="en">BCD is coarse control. Breath is fine control.</span>
+            <span class="zh">BCD 是粗调，呼吸是微调</span>
+          </h2>
+        </div>
+        <div class="decision">
+          <div class="decision-half">
+            <p class="mono">Use BCD</p>
+            <h3><span class="en">For real buoyancy change</span><span class="zh">处理真正的浮力变化</span></h3>
+            <p><span class="en">Exposure suit compression, depth change, and cylinder gas loss need small, deliberate BCD adjustments.</span><span class="zh">防寒衣压缩、深度变化和气瓶变轻，需要小幅、有意识地调整 BCD。</span></p>
+          </div>
+          <div class="decision-half dark">
+            <p class="mono">Use Breath</p>
+            <h3><span class="en">For small hover corrections</span><span class="zh">处理悬停中的微调</span></h3>
+            <p><span class="en">Inhale to rise slightly, exhale to sink slightly, then wait for the delayed response.</span><span class="zh">吸气轻微上升，呼气轻微下沉，然后等待延迟反应。</span></p>
+          </div>
+        </div>
+        <div style="height:28px"></div>
+        <div class="script-box">
+          <p class="quote"><span class="en">Stop. Breathe. Wait. Then decide.</span><span class="zh">停住。呼吸。等待。再判断。</span></p>
+          <p><span class="en">The most common mistake is pressing buttons before the body has time to respond.</span><span class="zh">最常见错误，是身体还没来得及反应，手已经开始按充排气按钮。</span></p>
+        </div>
+      </section>
+
+      <section class="block" id="trim">
+        <div class="section-head">
+          <div class="section-num">05 · Trim And Balance</div>
+          <h2>
+            <span class="en">Trim is one part of buoyancy mastery</span>
+            <span class="zh">Trim 是精进浮力的一部分</span>
+          </h2>
+        </div>
+        <div class="grid-2">
+          <div class="script-box">
+            <p class="quote"><span class="en">Buoyancy answers up or down. Trim answers which way the body turns.</span><span class="zh">浮力回答上升还是下沉；Trim 回答身体会转向哪里。</span></p>
+            <p><span class="en">Teach center of buoyancy and center of gravity as a practical diagnostic tool, not as a physics lecture.</span><span class="zh">把浮心和重心当作实用诊断工具来讲，不要讲成纯物理课。</span></p>
+          </div>
+          <div class="grid-2">
+            <article class="card fill"><p class="mono">Feet Low</p><h3><span class="en">Move balance forward or up</span><span class="zh">把平衡点向前或向上调整</span></h3><p class="small"><span class="en">Check over-weighting, low cylinder, heavy fins, and low waist weight.</span><span class="zh">检查过重、气瓶偏低、重脚蹼、腰部配重偏低。</span></p></article>
+            <article class="card fill"><p class="mono">Head Low</p><h3><span class="en">Move balance back or down</span><span class="zh">把平衡点向后或向下调整</span></h3><p class="small"><span class="en">Check high cylinder, high trim weight, buoyant fins, and looking down.</span><span class="zh">检查气瓶过高、配重过高、脚蹼偏浮和长期低头。</span></p></article>
+            <article class="card fill"><p class="mono">Roll</p><h3><span class="en">Balance left and right</span><span class="zh">左右平衡</span></h3><p class="small"><span class="en">Move accessories, console, camera, and pocket load symmetrically.</span><span class="zh">让附件、仪表、相机和口袋负载更对称。</span></p></article>
+            <article class="card accent"><p class="mono">Rule</p><h3><span class="en">Change one variable</span><span class="zh">一次只改一个变量</span></h3><p class="small"><span class="en">Then hover again and record what changed.</span><span class="zh">再悬停一次，并记录变化。</span></p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="streamline">
+        <div class="section-head">
+          <div class="section-num">06 · Streamline</div>
+          <h2>
+            <span class="en">A clean diver is easier to control</span>
+            <span class="zh">装备越干净，控制越容易</span>
+          </h2>
+        </div>
+        <div class="flow" aria-label="Streamline checklist">
+          <div class="flow-step"><div class="step-code">01</div><div><h3><span class="en">Fit</span><span class="zh">合身</span></h3><p class="small"><span class="en">BCD, straps, cylinder, and weights do not shift.</span><span class="zh">BCD、肩带、气瓶和配重不会晃动。</span></p></div></div>
+          <div class="flow-step"><div class="step-code">02</div><div><h3><span class="en">Secure</span><span class="zh">固定</span></h3><p class="small"><span class="en">SPG, alternate air source, hoses, lights, slate, DSMB.</span><span class="zh">固定残压表、备用气源、管线、灯、记录板、DSMB。</span></p></div></div>
+          <div class="flow-step"><div class="step-code">03</div><div><h3><span class="en">Reduce drag</span><span class="zh">减少阻力</span></h3><p class="small"><span class="en">Horizontal body, tucked gear, less frontal area.</span><span class="zh">身体水平、装备贴身、迎水面积更小。</span></p></div></div>
+          <div class="flow-step"><div class="step-code">04</div><div><h3><span class="en">Protect</span><span class="zh">保护环境</span></h3><p class="small"><span class="en">No dangling gear dragging across sand or reef.</span><span class="zh">没有拖垂装备扫过沙地或礁体。</span></p></div></div>
+          <div class="flow-step"><div class="step-code">05</div><div><h3><span class="en">Photo rule</span><span class="zh">摄影规则</span></h3><p class="small"><span class="en">Stabilize first. Compose second. Review away from the reef.</span><span class="zh">先停稳，再构图；离开环境后再看照片。</span></p></div></div>
+        </div>
+      </section>
+
+      <section class="block" id="mind">
+        <div class="section-head">
+          <div class="section-num">07 · Visualization And Health</div>
+          <h2>
+            <span class="en">Calm control starts before the descent</span>
+            <span class="zh">安静控制从下潜前开始</span>
+          </h2>
+        </div>
+        <div class="grid-2">
+          <article class="card accent">
+            <p class="mono">Visualization</p>
+            <h3><span class="en">Rehearse the quiet dive</span><span class="zh">预演一潜安静的潜水</span></h3>
+            <p><span class="en">Imagine a streamlined setup, slow descent, small BCD inputs, breathing hover, controlled ascent, and stable safety stop.</span><span class="zh">想像装备流线型、缓慢下潜、小幅调整、呼吸悬停、受控上升和稳定安全停留。</span></p>
+          </article>
+          <article class="card fill">
+            <p class="mono">Fitness</p>
+            <h3><span class="en">Reserve capacity matters</span><span class="zh">余裕很重要</span></h3>
+            <p><span class="en">Fatigue raises breathing rate. Fast breathing changes lung volume average and makes buoyancy less stable.</span><span class="zh">疲劳会让呼吸变急；急促呼吸改变肺部平均气量，让浮力更不稳定。</span></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="dives">
+        <div class="section-head">
+          <div class="section-num">08 · Training Dives</div>
+          <h2>
+            <span class="en">Training Dives: Hover, then application</span>
+            <span class="zh">悬浮、踢法、控制</span>
+          </h2>
+        </div>
+        <div class="grid-2">
+          <article class="card accent">
+            <p class="mono">01 · Hover</p>
+            <h3><span class="en">Weight, descent, hover, breathing</span><span class="zh">配重、下潜、悬停、呼吸</span></h3>
+            <div class="sequence">
+              <div class="seq-item"><p><span class="en">Assemble and distribute weight intentionally.</span><span class="zh">有意识地组装和分布配重。</span></p></div>
+              <div class="seq-item"><p><span class="en">Complete a surface weight check with empty BCD.</span><span class="zh">BCD 排空后完成水面浮力检查。</span></p></div>
+              <div class="seq-item"><p><span class="en">Descend slowly and establish neutral buoyancy at depth.</span><span class="zh">缓慢下潜，并在目标深度建立中性浮力。</span></p></div>
+              <div class="seq-item"><p><span class="en">Hover about 60 seconds using breathing control.</span><span class="zh">用呼吸控制悬停约 60 秒。</span></p></div>
+            </div>
+          </article>
+          <article class="card fill">
+            <p class="mono">02 · Apply</p>
+            <h3><span class="en">Movement, streamline, task control</span><span class="zh">移动、流线型、任务控制</span></h3>
+            <div class="sequence">
+              <div class="seq-item"><p><span class="en">Use visualization to settle breathing and movement.</span><span class="zh">用想像法稳定呼吸和动作节奏。</span></p></div>
+              <div class="seq-item"><p><span class="en">Hover about 90 seconds using breathing control.</span><span class="zh">用呼吸控制悬停约 90 秒。</span></p></div>
+              <div class="seq-item"><p><span class="en">Fin efficiently: slower rhythm, useful glide, no hand sculling.</span><span class="zh">高效踢水：节奏慢、有效滑行、不用手划水。</span></p></div>
+              <div class="seq-item"><p><span class="en">Approach a non-living bottom reference neutrally, then back away.</span><span class="zh">中性接近无生物底质参照，再中性退开。</span></p></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="images">
+        <div class="section-head">
+          <div class="section-num">09 · Online Images</div>
+          <h2>
+            <span class="en">Image Examples</span>
+            <span class="zh">图片示例</span>
+          </h2>
+        </div>
+        <div class="image-grid">
+          <article class="image-card photo">
+            <img src="https://divecampus.com/cdn/shop/articles/perfecting-your-buoyancy-trim-748852_1200x660.jpg?v=1704988345" alt="Horizontal diver near reef">
+            <div class="image-body">
+              <p class="mono">Good Trim Photo</p>
+              <h3><span class="en">Horizontal, quiet, low drag</span><span class="zh">水平、安静、低阻力</span></h3>
+              <p class="small"><a href="https://divecampus.com/blogs/the-diveblog/buoyancy-trim-your-best-dive-buddies" target="_blank" rel="noreferrer">Source: DiveCampus</a></p>
+            </div>
+          </article>
+          <article class="image-card">
+            <img src="https://cdn.shopify.com/s/files/1/0590/7057/8851/files/Screen_Shot_2021-09-17_at_2.34.10_AM_480x480.png?v=1631831697" alt="Positive neutral and negative buoyancy diagram">
+            <div class="image-body">
+              <p class="mono">Weight Check</p>
+              <h3><span class="en">Positive, neutral, negative</span><span class="zh">正浮、中性、负浮</span></h3>
+              <p class="small"><a href="https://divecampus.com/blogs/the-diveblog/buoyancy-trim-your-best-dive-buddies" target="_blank" rel="noreferrer">Source: DiveCampus</a></p>
+            </div>
+          </article>
+          <article class="image-card">
+            <img src="https://scubatechphilippines.com/scuba_blog/wp-content/uploads/2022/12/Common-Trim-Problems.png" alt="Common diver trim problems diagram">
+            <div class="image-body">
+              <p class="mono">Trim Problems</p>
+              <h3><span class="en">Leg down, knee down, back arch</span><span class="zh">脚低、膝盖掉、反弓硬撑</span></h3>
+              <p class="small"><a href="https://scubatechphilippines.com/scuba_blog/horizontal-trim-scuba-diving/" target="_blank" rel="noreferrer">Source: ScubaTech Philippines</a></p>
+            </div>
+          </article>
+          <article class="image-card">
+            <img src="https://scubatechphilippines.com/scuba_blog/wp-content/uploads/2023/09/Trim-Over-Weighting1.jpg.jpg" alt="Over-weighting and trim effect diagram">
+            <div class="image-body">
+              <p class="mono">Over-weighting</p>
+              <h3><span class="en">More lead means more compensating gas</span><span class="zh">铅越多，补偿气体越多</span></h3>
+              <p class="small"><a href="https://scubatechphilippines.com/scuba_blog/horizontal-trim-scuba-diving/" target="_blank" rel="noreferrer">Source: ScubaTech Philippines</a></p>
+            </div>
+          </article>
+          <article class="image-card">
+            <img src="https://scubatechphilippines.com/scuba_blog/wp-content/uploads/2022/12/Ideal-Trim.png" alt="Ideal scuba diving trim diagram">
+            <div class="image-body">
+              <p class="mono">Ideal Trim</p>
+              <h3><span class="en">Shoulders, hips, knees aligned</span><span class="zh">肩、髋、膝大致同线</span></h3>
+              <p class="small"><a href="https://scubatechphilippines.com/scuba_blog/horizontal-trim-scuba-diving/" target="_blank" rel="noreferrer">Source: ScubaTech Philippines</a></p>
+            </div>
+          </article>
+          <article class="image-card">
+            <img src="https://scubatechphilippines.com/scuba_blog/wp-content/uploads/2023/09/Trim-Water-Lift-1.jpg" alt="Trim and water lift diagram">
+            <div class="image-body">
+              <p class="mono">Water Lift</p>
+              <h3><span class="en">Movement can hide bad buoyancy</span><span class="zh">移动会掩盖浮力问题</span></h3>
+              <p class="small"><a href="https://scubatechphilippines.com/scuba_blog/horizontal-trim-scuba-diving/" target="_blank" rel="noreferrer">Source: ScubaTech Philippines</a></p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="videos">
+        <div class="section-head">
+          <div class="section-num">10 · Video Links</div>
+          <h2>
+            <span class="en">Video Examples</span>
+            <span class="zh">动态示例视频</span>
+          </h2>
+        </div>
+        <div class="video-list">
+          <a class="resource" href="https://www.youtube.com/watch?v=SMpGNilDj7A" target="_blank" rel="noreferrer">
+            <p class="mono">Video 01</p>
+            <h3>How To Achieve Perfect Trim</h3>
+            <p class="small">建立水平姿态的视觉目标。</p>
+          </a>
+          <a class="resource" href="https://www.youtube.com/watch?v=swFWri2ln3c" target="_blank" rel="noreferrer">
+            <p class="mono">Video 02</p>
+            <h3>Perfect Your Trim Position</h3>
+            <p class="small">身体姿态、膝盖和脚蹼位置。</p>
+          </a>
+          <a class="resource" href="https://www.youtube.com/watch?v=wbk-zDrXbio" target="_blank" rel="noreferrer">
+            <p class="mono">Video 03</p>
+            <h3>Buoyancy & Trim Tips</h3>
+            <p class="small">配重、呼吸、姿态整合复习。</p>
+          </a>
+          <a class="resource" href="https://www.youtube.com/watch?v=2bEOXAPEC8A" target="_blank" rel="noreferrer">
+            <p class="mono">Video 04</p>
+            <h3>Buoyancy Vs Trim</h3>
+            <p class="small">区分浮力控制与姿态控制。</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="block" id="close">
+        <div class="section-head">
+          <div class="section-num">11 · Takeaway</div>
+          <h2>
+            <span class="en">Weight right, breathe slow, move less</span>
+            <span class="zh">配重正确，呼吸变慢，动作变少</span>
+          </h2>
+        </div>
+        <div class="script-box">
+          <p class="quote">
+            <span class="en">Peak buoyancy is not one trick. It is a repeatable system.</span>
+            <span class="zh">顶尖中性浮力不是一个技巧，而是一套可重复的系统。</span>
+          </p>
+          <p>
+            <span class="en">The homework is simple: record equipment and weight, notice breathing rhythm, secure dangling gear, get a side video, and change only one variable next dive.</span>
+            <span class="zh">课后作业很简单：记录装备和配重，观察呼吸节奏，固定拖垂装备，拍一段侧面视频，下一潜只改一个变量。</span>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Source: 2026-06-12 顶尖中性浮力备课.md</span>
+      <span>Local HTML · Swiss teaching visual · Online images only</span>
+    </footer>
+  </div>
+
+  <script>
+    const buttons = Array.from(document.querySelectorAll(".mode-btn"));
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.mode;
+        document.body.dataset.lang = mode;
+        buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+    function jumpToHash(){
+      if (!location.hash) return;
+      const target = document.querySelector(location.hash);
+      if (target) setTimeout(() => target.scrollIntoView({block:"start"}), 60);
+    }
+    window.addEventListener("load", jumpToHash);
+    window.addEventListener("hashchange", jumpToHash);
+    if (window.lucide) lucide.createIcons();
+  </script>
+</body>
+</html>
