@@ -144,6 +144,7 @@
     section{
       padding:clamp(72px,10vh,120px) var(--safe);
       border-bottom:1px solid var(--line);
+      scroll-margin-top:92px;
     }
     .section-grid{
       display:grid;
@@ -275,6 +276,28 @@
       stroke-width:1.7;
     }
     .card p{font-size:15px}
+    .species-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+      margin-top:38px;
+    }
+    .species-card{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.22);
+      overflow:hidden;
+    }
+    .species-card img{
+      width:100%;
+      height:clamp(180px,24vw,320px);
+      object-fit:cover;
+    }
+    .species-card div{
+      padding:20px;
+      display:grid;
+      gap:8px;
+    }
+    .species-card p{font-size:15px}
 
     .timeline{
       display:grid;
@@ -340,7 +363,7 @@
       .section-grid{grid-template-columns:1fr}
       .section-label{position:static}
       .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .cards{grid-template-columns:1fr}
+      .cards,.species-grid{grid-template-columns:1fr}
       .image-strip{grid-template-columns:1fr}
       .day{grid-template-columns:1fr;gap:10px}
       footer{grid-template-columns:1fr}
@@ -395,7 +418,7 @@
         </aside>
         <div>
           <p class="lead">
-            四方线是马尔代夫船宿里最经典的一条中部线路。它不像深南线那样以强流和海沟为主，却能把清澈海水、外礁、鱼群、水道和珊瑚生态串在一周里。
+            四方线适合想第一次认真体验马尔代夫船宿的人：不用每天换酒店，也不用把行程压得很赶，船会带你从马累附近一路走到阿里和瓦武的经典潜点。
           </p>
           <div class="stats">
             <div class="stat">
@@ -409,14 +432,14 @@
               <small>实际按海况调整</small>
             </div>
             <div class="stat">
-              <small>Style</small>
-              <strong>Classic</strong>
-              <small>船宿入门到进阶</small>
+              <small>What To See</small>
+              <strong>Big</strong>
+              <small>鲸鲨、蝠鲼、鲨鱼和鱼群</small>
             </div>
             <div class="stat">
               <small>Best For</small>
-              <strong>First</strong>
-              <small>第一次马代船宿</small>
+              <strong>Easy</strong>
+              <small>第一次马代船宿也容易理解</small>
             </div>
           </div>
           <figure class="frame r-21x9 fit-contain" style="margin-top:42px">
@@ -435,17 +458,17 @@
         </aside>
         <div>
           <p class="lead">
-            NEO Cruiser 主船长约 45 米，宽约 11 米。全船独立空调，客舱静音设计，配备星链 WiFi，并具备全天候及夜间航行能力。
+            这趟旅行的住处不是岛上的酒店，而是 NEO Cruiser。白天潜水，晚上船移动，第二天醒来就靠近新的潜点。
           </p>
           <p>
-            夜间航行让白天更多时间留给潜水，也让四方线可以覆盖更大的中部海域。醒来时，窗外可能已经换成下一片环礁。
+            主船长约 45 米、宽约 11 米。房间有独立空调和静音设计，船上有餐厅、休息区、酒吧、露天泳池和日光浴甲板。对第一次船宿的人来说，重点是省心：不用每天收拾行李，也不用来回赶船。
           </p>
           <div class="image-strip">
             <figure class="frame r-16x10">
               <img src="assets/neo-four-atolls-2026-08-13/02-sunset-cruiser.png" alt="夕阳下的 NEO Cruiser">
             </figure>
             <figure class="frame r-4x3">
-              <img src="assets/neo-four-atolls-2026-08-13/03-evening-cruiser.jpg" alt="夜色中的 NEO Cruiser">
+              <img src="assets/neo-four-atolls-2026-08-13/11-lounge.png" alt="船上休息区">
             </figure>
           </div>
           <div class="cards">
@@ -477,36 +500,39 @@
         </aside>
         <div>
           <p class="lead">
-            四方线的魅力不是押注单一生物，而是把中部马尔代夫的经典潜水类型打包：清澈礁盘、外礁、水道、鱼群、鲨鱼和珊瑚生态。
+            这条线最容易讲清楚：南阿里找鲸鲨和蝠鲼，瓦武看护士鲨和水道鲨鱼，马累附近看 thila、外礁、鱼群和珊瑚。不是每一潜都追大货，但每天都有不同期待。
           </p>
-          <div class="cards">
-            <article class="card">
-              <i data-lucide="waves"></i>
-              <h3>水道与外礁</h3>
-              <p>在水流带来的营养交换中，观察鱼群聚集和鲨鱼巡游。</p>
+          <div class="species-grid">
+            <article class="species-card">
+              <img src="assets/neo-four-atolls-2026-08-13/14-whale-shark-maldives.jpg" alt="南阿里鲸鲨">
+              <div>
+                <h3>鲸鲨</h3>
+                <p>南阿里是马尔代夫最有代表性的鲸鲨区域之一。遇见要看当天海况和船方安排，但这是四方线最值得期待的画面。</p>
+              </div>
             </article>
-            <article class="card">
-              <i data-lucide="fish"></i>
-              <h3>鱼群风暴</h3>
-              <p>中部海域常见丰富鱼群，是四方线很有记忆点的画面。</p>
+            <article class="species-card">
+              <img src="assets/neo-four-atolls-2026-08-13/15-manta-ray-maldives.jpg" alt="马尔代夫蝠鲼">
+              <div>
+                <h3>蝠鲼</h3>
+                <p>中部环礁有清洁站和觅食场景，蝠鲼不是“表演”，更像一场安静的路过：靠近、盘旋、再消失。</p>
+              </div>
             </article>
-            <article class="card">
-              <i data-lucide="sunrise"></i>
-              <h3>清晨潜点</h3>
-              <p>有机会安排清晨锤头鲨相关潜点，具体按海况与船方判断。</p>
+            <article class="species-card">
+              <img src="assets/neo-four-atolls-2026-08-13/16-nurse-sharks-vaavu.jpg" alt="瓦武护士鲨">
+              <div>
+                <h3>护士鲨</h3>
+                <p>瓦武一带以护士鲨体验出名。它们通常在浅水或夜潜场景出现，适合拍到“我真的在马代潜水了”的记忆点。</p>
+              </div>
+            </article>
+            <article class="species-card">
+              <img src="assets/neo-four-atolls-2026-08-13/07-fish-school.png" alt="马尔代夫鱼群">
+              <div>
+                <h3>鱼群和礁鲨</h3>
+                <p>四方线不只看大货。水道和外礁里常见鱼群、白鳍礁鲨、黑鳍礁鲨、鹰鳐和海龟，这些才是每天潜水的基本盘。</p>
+              </div>
             </article>
           </div>
-          <div class="image-strip">
-            <figure class="frame r-16x10">
-              <img src="assets/neo-four-atolls-2026-08-13/05-tiger-shark.jpg" alt="马尔代夫鲨鱼潜水画面">
-            </figure>
-            <figure class="frame r-16x10">
-              <img src="assets/neo-four-atolls-2026-08-13/07-fish-school.png" alt="鱼群聚集画面">
-            </figure>
-          </div>
-          <figure class="frame r-21x9" style="margin-top:18px">
-            <img src="assets/neo-four-atolls-2026-08-13/06-shark-reef.jpg" alt="礁鲨与珊瑚礁潜水场景">
-          </figure>
+          <p class="note" style="margin-top:20px">自然生物无法保证。页面里的“可能看到”，指四方线常见或代表性期待，实际以当周海况、季节、水流和船方安排为准。</p>
         </div>
       </div>
     </section>
@@ -538,7 +564,7 @@
             </article>
             <article class="card">
               <h3>高级房</h3>
-              <p>大床、双床和三床组合，适合不同人数与入住偏好的同行组合。</p>
+                <p>大床、双床和三床组合，适合朋友、潜伴或小团队同行。</p>
               <figure class="frame r-4x3">
                 <img src="assets/neo-four-atolls-2026-08-13/10-superior-room.png" alt="NEO 高级房">
               </figure>
@@ -546,15 +572,12 @@
           </div>
           <div class="image-strip">
             <figure class="frame r-16x10">
-              <img src="assets/neo-four-atolls-2026-08-13/11-lounge.png" alt="船上休息区">
-            </figure>
-            <figure class="frame r-16x10">
               <img src="assets/neo-four-atolls-2026-08-13/12-restaurant.png" alt="船上餐厅">
             </figure>
+            <figure class="frame r-16x10">
+              <img src="assets/neo-four-atolls-2026-08-13/13-jacuzzi.png" alt="船上露天休息空间">
+            </figure>
           </div>
-          <figure class="frame r-21x9" style="margin-top:18px">
-            <img src="assets/neo-four-atolls-2026-08-13/13-jacuzzi.png" alt="船上露天休息空间">
-          </figure>
         </div>
       </div>
     </section>
@@ -567,7 +590,7 @@
         </aside>
         <div>
           <p class="lead">
-            这不是每天换岛的旅行，而是一条围绕潜水效率设计的海上路线。船负责移动，白天交给海。
+            你不用每天换酒店、赶内飞、重新整理装备。每天的节奏很简单：吃饭、潜水、休息、看海，晚上船继续往下一片海域走。
           </p>
           <div class="timeline">
             <article class="day">
@@ -581,7 +604,7 @@
               <time>Aug 14-19</time>
               <div>
                 <h3>四方线主行程</h3>
-                <p>围绕北马累、南马累、南阿里、北阿里和瓦武环礁展开。每天根据海况安排 2-3 潜，可能包含夜潜。</p>
+                <p>围绕北马累、南马累、南阿里、北阿里和瓦武环礁展开。每天根据海况安排 2-3 潜，可能包含夜潜；重点看鲸鲨、蝠鲼、护士鲨、礁鲨、鱼群和珊瑚礁。</p>
               </div>
             </article>
             <article class="day">
@@ -599,8 +622,8 @@
 
     <section class="closing">
       <blockquote>
-        一周时间，不追赶岛屿。<br>
-        让船带你醒在下一片海。
+        这趟旅行不用追赶。<br>
+        你只需要醒来、下水、看见海里的那一面马尔代夫。
       </blockquote>
     </section>
   </main>
