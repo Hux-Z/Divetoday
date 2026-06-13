@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Maldives Four Atolls Route Map</title>
+  <desc id="desc">A simple central Maldives four-atolls liveaboard route from Male to South Male, Vaavu, South Ari, North Ari and Rasdhoo, returning to Male.</desc>
+  <rect width="1200" height="760" fill="#f5f1e8"/>
+  <g opacity=".15" stroke="#1a2e1f" stroke-width="1">
+    <path d="M80 110H1120M80 230H1120M80 350H1120M80 470H1120M80 590H1120"/>
+    <path d="M180 60V700M360 60V700M540 60V700M720 60V700M900 60V700M1080 60V700"/>
+  </g>
+  <text x="78" y="86" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#1a2e1f">NEO CRUISER · FOUR ATOLLS ROUTE</text>
+  <text x="78" y="122" font-family="Arial, sans-serif" font-size="17" fill="#72806f">Male → South Male → Vaavu → South Ari → North Ari / Rasdhoo → Male</text>
+
+  <g fill="#cddfca" stroke="#1a2e1f" stroke-width="3">
+    <path d="M690 94c66 17 104 79 97 150-7 68-44 126-97 154-42 22-92 20-126-5-37-28-52-78-43-134 12-73 76-188 169-165z"/>
+    <path d="M700 420c57 20 93 70 89 127-4 63-54 103-112 98-64-6-106-59-96-122 10-65 62-124 119-103z"/>
+    <path d="M825 518c78-6 151 31 176 89 17 40-9 80-63 93-65 15-164-7-210-50-39-36-18-125 97-132z"/>
+    <path d="M329 353c73 11 128 74 122 153-6 93-73 178-153 193-64 12-116-24-129-93-17-94 29-216 101-249 17-8 37-8 59-4z"/>
+    <path d="M386 184c45 0 79 32 83 78 4 49-27 97-75 116-43 17-89 6-112-29-26-41-16-103 24-139 21-19 48-26 80-26z"/>
+    <path d="M464 93c38-1 63 24 59 57-3 28-28 52-58 58-33 7-64-9-75-38-12-32 3-67 34-75 12-3 25-2 40-2z"/>
+  </g>
+
+  <g font-family="Arial, sans-serif" fill="#1a2e1f">
+    <text x="782" y="178" font-size="28" font-weight="700">NORTH MALE</text>
+    <text x="786" y="206" font-size="16">Male airport / embark</text>
+    <text x="778" y="516" font-size="28" font-weight="700">SOUTH MALE</text>
+    <text x="892" y="556" font-size="28" font-weight="700">VAAVU</text>
+    <text x="104" y="610" font-size="28" font-weight="700">SOUTH ARI</text>
+    <text x="221" y="286" font-size="28" font-weight="700">NORTH ARI</text>
+    <text x="486" y="142" font-size="24" font-weight="700">RASDHOO</text>
+  </g>
+
+  <g fill="#ffffff" stroke="#1a2e1f" stroke-width="4">
+    <circle cx="698" cy="255" r="13"/>
+    <circle cx="697" cy="542" r="13"/>
+    <circle cx="910" cy="622" r="13"/>
+    <circle cx="309" cy="585" r="13"/>
+    <circle cx="366" cy="286" r="13"/>
+    <circle cx="468" cy="145" r="13"/>
+  </g>
+  <g stroke="#e85d3f" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M698 255 C737 333 734 439 697 542"/>
+    <path d="M697 542 C768 582 832 607 910 622"/>
+    <path d="M910 622 C703 682 492 671 309 585"/>
+    <path d="M309 585 C265 465 289 356 366 286"/>
+    <path d="M366 286 C390 223 421 173 468 145"/>
+    <path d="M468 145 C547 126 630 163 698 255"/>
+  </g>
+  <g fill="#e85d3f">
+    <path d="M700 539l27 6-20 19z"/>
+    <path d="M902 623l-24 14v-28z"/>
+    <path d="M315 579l-29-4 18-23z"/>
+    <path d="M367 291l-9-28 27 8z"/>
+    <path d="M463 146l19-22 10 28z"/>
+    <path d="M691 252l-10-28 28 7z"/>
+  </g>
+
+  <g font-family="Arial, sans-serif" font-size="17" fill="#1a2e1f">
+    <rect x="77" y="670" width="1046" height="48" fill="#ece7da" stroke="#1a2e1f" stroke-width="2"/>
+    <text x="100" y="701">Typical highlights: whale shark · manta ray · nurse shark · reef shark · eagle ray · reef fish</text>
+  </g>
+</svg>
