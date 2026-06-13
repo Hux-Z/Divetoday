@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEO 船宿四方线 · 2026.08.13-08.20</title>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root{
+      --ink:#1a2e1f;
+      --ink-rgb:26,46,31;
+      --paper:#f5f1e8;
+      --paper-rgb:245,241,232;
+      --paper-tint:#ece7da;
+      --ink-tint:#253d2c;
+      --muted:#72806f;
+      --line:rgba(var(--ink-rgb),.24);
+      --safe:clamp(20px,5vw,78px);
+      --serif:"Noto Serif SC","Songti SC",STSong,Georgia,serif;
+      --sans:Inter,Helvetica,Arial,"PingFang SC","Microsoft YaHei UI","Noto Sans SC",sans-serif;
+      --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:var(--sans);
+      line-height:1.55;
+      letter-spacing:0;
+    }
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:30;
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:18px;
+      padding:14px var(--safe);
+      background:rgba(var(--paper-rgb),.86);
+      border-bottom:1px solid var(--line);
+      backdrop-filter:blur(16px);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+      font:700 13px/1.2 var(--mono);
+      color:var(--ink);
+      text-transform:uppercase;
+    }
+    .brand-mark{
+      width:14px;
+      height:14px;
+      background:var(--ink);
+      flex:0 0 auto;
+    }
+    .nav{
+      display:flex;
+      gap:14px;
+      font:700 12px/1 var(--mono);
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+    .nav a:hover{color:var(--ink)}
+
+    .hero{
+      min-height:calc(100vh - 52px);
+      display:grid;
+      grid-template-columns:minmax(0,1fr);
+      align-items:end;
+      position:relative;
+      overflow:hidden;
+      color:#fff;
+      background:var(--ink);
+    }
+    .hero img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center;
+      opacity:.82;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.68)),
+        linear-gradient(90deg,rgba(0,0,0,.54),rgba(0,0,0,.06));
+    }
+    .hero-inner{
+      position:relative;
+      z-index:1;
+      padding:clamp(78px,12vh,132px) var(--safe);
+      max-width:1120px;
+    }
+    .kicker{
+      margin:0 0 18px;
+      font:700 13px/1.2 var(--mono);
+      letter-spacing:0;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.72);
+    }
+    h1{
+      margin:0;
+      max-width:9.5ch;
+      font-family:var(--serif);
+      font-size:min(14vw,112px);
+      line-height:.92;
+      font-weight:680;
+      letter-spacing:0;
+    }
+    .hero-lead{
+      margin:28px 0 0;
+      max-width:690px;
+      font-size:clamp(18px,1.7vw,25px);
+      font-weight:420;
+      color:rgba(255,255,255,.88);
+    }
+    .meta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:30px;
+      font:700 13px/1 var(--mono);
+      color:rgba(255,255,255,.78);
+      text-transform:uppercase;
+    }
+    .pill{
+      border:1px solid rgba(255,255,255,.42);
+      padding:8px 10px;
+    }
+
+    section{
+      padding:clamp(72px,10vh,120px) var(--safe);
+      border-bottom:1px solid var(--line);
+    }
+    .section-grid{
+      display:grid;
+      grid-template-columns:minmax(220px,.72fr) minmax(0,1.28fr);
+      gap:clamp(34px,6vw,92px);
+      align-items:start;
+    }
+    .section-label{
+      position:sticky;
+      top:88px;
+      display:grid;
+      gap:18px;
+      border-top:1px solid var(--ink);
+      padding-top:18px;
+    }
+    .section-label span{
+      font:700 13px/1 var(--mono);
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+    h2{
+      margin:0;
+      font-family:var(--serif);
+      font-size:min(7vw,70px);
+      line-height:.98;
+      font-weight:660;
+      letter-spacing:0;
+    }
+    h3{
+      margin:0 0 14px;
+      font-size:clamp(22px,2vw,34px);
+      line-height:1.12;
+      font-weight:620;
+      letter-spacing:0;
+    }
+    p{
+      margin:0;
+      color:rgba(var(--ink-rgb),.82);
+      font-size:clamp(16px,1.15vw,19px);
+    }
+    p + p{margin-top:18px}
+    .lead{
+      font-size:clamp(20px,1.8vw,29px);
+      line-height:1.38;
+      color:var(--ink);
+      max-width:780px;
+    }
+    .note{
+      color:var(--muted);
+      font-size:15px;
+      font-weight:520;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      border-top:1px solid var(--ink);
+      border-left:1px solid var(--ink);
+      margin-top:42px;
+    }
+    .stat{
+      min-height:150px;
+      border-right:1px solid var(--ink);
+      border-bottom:1px solid var(--ink);
+      padding:22px;
+      display:grid;
+      align-content:space-between;
+      gap:18px;
+    }
+    .stat small{
+      font:700 12px/1 var(--mono);
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+    .stat strong{
+      font-family:var(--serif);
+      font-size:clamp(32px,4vw,58px);
+      line-height:.95;
+    }
+
+    .image-strip{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+      margin-top:46px;
+    }
+    .frame{
+      border:1px solid var(--line);
+      background:var(--paper-tint);
+      overflow:hidden;
+    }
+    .frame img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .r-16x10{aspect-ratio:16/10}
+    .r-4x3{aspect-ratio:4/3}
+    .r-21x9{aspect-ratio:21/9}
+    .fit-contain img{
+      object-fit:contain;
+      padding:10px;
+      background:#fff;
+    }
+    .caption{
+      margin-top:10px;
+      font:700 12px/1.3 var(--mono);
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+      margin-top:38px;
+    }
+    .card{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.22);
+      padding:24px;
+      display:grid;
+      gap:12px;
+      min-height:210px;
+    }
+    .card i{
+      width:24px;
+      height:24px;
+      stroke-width:1.7;
+    }
+    .card p{font-size:15px}
+
+    .timeline{
+      display:grid;
+      gap:0;
+      margin-top:36px;
+      border-top:1px solid var(--ink);
+    }
+    .day{
+      display:grid;
+      grid-template-columns:160px minmax(0,1fr);
+      gap:28px;
+      padding:26px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .day time{
+      font:700 14px/1.2 var(--mono);
+      color:var(--ink);
+      text-transform:uppercase;
+    }
+
+    .dark{
+      background:var(--ink);
+      color:var(--paper);
+    }
+    .dark p,.dark .lead{color:rgba(var(--paper-rgb),.84)}
+    .dark .section-label{border-top-color:var(--paper)}
+    .dark .section-label span,.dark .caption,.dark .note{color:rgba(var(--paper-rgb),.62)}
+    .dark .card,.dark .frame{border-color:rgba(var(--paper-rgb),.28);background:rgba(var(--paper-rgb),.06)}
+    .dark .day{border-bottom-color:rgba(var(--paper-rgb),.22)}
+    .dark .timeline{border-top-color:var(--paper)}
+    .dark .day time{color:var(--paper)}
+
+    .closing{
+      min-height:84vh;
+      display:grid;
+      align-content:center;
+      background:var(--paper-tint);
+    }
+    .closing blockquote{
+      margin:0;
+      max-width:980px;
+      font-family:var(--serif);
+      font-size:min(7.8vw,76px);
+      line-height:1.05;
+      font-weight:650;
+      letter-spacing:0;
+    }
+
+    footer{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:18px;
+      padding:30px var(--safe);
+      font:700 12px/1.4 var(--mono);
+      color:var(--muted);
+      text-transform:uppercase;
+      background:var(--paper);
+    }
+
+    @media (max-width:920px){
+      .topbar{grid-template-columns:1fr}
+      .nav{overflow:auto;padding-bottom:2px}
+      .section-grid{grid-template-columns:1fr}
+      .section-label{position:static}
+      .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .cards{grid-template-columns:1fr}
+      .image-strip{grid-template-columns:1fr}
+      .day{grid-template-columns:1fr;gap:10px}
+      footer{grid-template-columns:1fr}
+      h1{font-size:min(18vw,88px)}
+      h2{font-size:min(13vw,60px)}
+    }
+    @media (max-width:560px){
+      .hero{min-height:82vh}
+      .stats{grid-template-columns:1fr}
+      .stat{min-height:118px}
+      section{padding-block:64px}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark"></span>
+      <span>Divetoday · Maldives Liveaboard</span>
+    </a>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#route">Route</a>
+      <a href="#boat">Boat</a>
+      <a href="#dives">Dives</a>
+      <a href="#rooms">Rooms</a>
+      <a href="#schedule">Schedule</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="NEO 船宿四方线封面">
+      <img src="assets/neo-four-atolls-2026-08-13/01-neo-cruiser.png" alt="NEO Cruiser 豪华船宿">
+      <div class="hero-inner">
+        <p class="kicker">NEO Cruiser · Four Atolls Route</p>
+        <h1>马尔代夫<br>四方线船宿</h1>
+        <p class="hero-lead">
+          2026.08.13-08.20，搭乘 NEO Cruiser 进入马尔代夫中部经典海域：北马累、南马累、南阿里、北阿里与瓦武环礁。
+        </p>
+        <div class="meta-row">
+          <span class="pill">8天7晚</span>
+          <span class="pill">约19-20潜</span>
+          <span class="pill">中部经典线路</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="route">
+      <div class="section-grid">
+        <aside class="section-label">
+          <span>01 · Route</span>
+          <h2>为什么是四方线</h2>
+        </aside>
+        <div>
+          <p class="lead">
+            四方线是马尔代夫船宿里最经典的一条中部线路。它不像深南线那样以强流和海沟为主，却能把清澈海水、外礁、鱼群、水道和珊瑚生态串在一周里。
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <small>Route</small>
+              <strong>5</strong>
+              <small>中部环礁区域</small>
+            </div>
+            <div class="stat">
+              <small>Dives</small>
+              <strong>19-20</strong>
+              <small>实际按海况调整</small>
+            </div>
+            <div class="stat">
+              <small>Style</small>
+              <strong>Classic</strong>
+              <small>船宿入门到进阶</small>
+            </div>
+            <div class="stat">
+              <small>Best For</small>
+              <strong>First</strong>
+              <small>第一次马代船宿</small>
+            </div>
+          </div>
+          <figure class="frame r-21x9 fit-contain" style="margin-top:42px">
+            <img src="assets/neo-four-atolls-2026-08-13/04-four-atolls-map.png" alt="马尔代夫四方线行程地图">
+          </figure>
+          <div class="caption">KAAFU · ALIFU DHAALU · ALIFU ALIFU · VAAVU</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="boat" class="dark">
+      <div class="section-grid">
+        <aside class="section-label">
+          <span>02 · Boat</span>
+          <h2>船，就是移动的海上基地</h2>
+        </aside>
+        <div>
+          <p class="lead">
+            NEO Cruiser 主船长约 45 米，宽约 11 米。全船独立空调，客舱静音设计，配备星链 WiFi，并具备全天候及夜间航行能力。
+          </p>
+          <p>
+            夜间航行让白天更多时间留给潜水，也让四方线可以覆盖更大的中部海域。醒来时，窗外可能已经换成下一片环礁。
+          </p>
+          <div class="image-strip">
+            <figure class="frame r-16x10">
+              <img src="assets/neo-four-atolls-2026-08-13/02-sunset-cruiser.png" alt="夕阳下的 NEO Cruiser">
+            </figure>
+            <figure class="frame r-4x3">
+              <img src="assets/neo-four-atolls-2026-08-13/03-evening-cruiser.jpg" alt="夜色中的 NEO Cruiser">
+            </figure>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <i data-lucide="ship"></i>
+              <h3>45 米主船</h3>
+              <p>空间体量适合中大型船宿，一周航行和潜水都围绕主船展开。</p>
+            </article>
+            <article class="card">
+              <i data-lucide="moon"></i>
+              <h3>夜间航行</h3>
+              <p>减少重复潜点，把航行时间交给夜晚，把白天留给潜水。</p>
+            </article>
+            <article class="card">
+              <i data-lucide="wifi"></i>
+              <h3>星链 WiFi</h3>
+              <p>船上提供网络连接，适合需要基础沟通和内容同步的人。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dives">
+      <div class="section-grid">
+        <aside class="section-label">
+          <span>03 · Dives</span>
+          <h2>这条线看什么</h2>
+        </aside>
+        <div>
+          <p class="lead">
+            四方线的魅力不是押注单一生物，而是把中部马尔代夫的经典潜水类型打包：清澈礁盘、外礁、水道、鱼群、鲨鱼和珊瑚生态。
+          </p>
+          <div class="cards">
+            <article class="card">
+              <i data-lucide="waves"></i>
+              <h3>水道与外礁</h3>
+              <p>在水流带来的营养交换中，观察鱼群聚集和鲨鱼巡游。</p>
+            </article>
+            <article class="card">
+              <i data-lucide="fish"></i>
+              <h3>鱼群风暴</h3>
+              <p>中部海域常见丰富鱼群，是四方线很有记忆点的画面。</p>
+            </article>
+            <article class="card">
+              <i data-lucide="sunrise"></i>
+              <h3>清晨潜点</h3>
+              <p>有机会安排清晨锤头鲨相关潜点，具体按海况与船方判断。</p>
+            </article>
+          </div>
+          <div class="image-strip">
+            <figure class="frame r-16x10">
+              <img src="assets/neo-four-atolls-2026-08-13/05-tiger-shark.jpg" alt="马尔代夫鲨鱼潜水画面">
+            </figure>
+            <figure class="frame r-16x10">
+              <img src="assets/neo-four-atolls-2026-08-13/07-fish-school.png" alt="鱼群聚集画面">
+            </figure>
+          </div>
+          <figure class="frame r-21x9" style="margin-top:18px">
+            <img src="assets/neo-four-atolls-2026-08-13/06-shark-reef.jpg" alt="礁鲨与珊瑚礁潜水场景">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="rooms" class="dark">
+      <div class="section-grid">
+        <aside class="section-label">
+          <span>04 · On Board</span>
+          <h2>住在船上，也住进海里</h2>
+        </aside>
+        <div>
+          <p class="lead">
+            船宿不是住在一个固定岛上，而是每天醒来都靠近新的潜点。潜完回到船上，吃饭、休息、看日落，再准备下一潜。
+          </p>
+          <div class="cards">
+            <article class="card">
+              <h3>VIP 海景房</h3>
+              <p>顶层甲板，独立空间与海景视野，适合想要更强私密感的人。</p>
+              <figure class="frame r-4x3">
+                <img src="assets/neo-four-atolls-2026-08-13/08-vip-room.png" alt="NEO VIP 海景房">
+              </figure>
+            </article>
+            <article class="card">
+              <h3>豪华海景房</h3>
+              <p>分布在主甲板与上甲板，适合情侣、朋友或潜伴拼房。</p>
+              <figure class="frame r-4x3">
+                <img src="assets/neo-four-atolls-2026-08-13/09-seaview-room.png" alt="NEO 豪华海景房">
+              </figure>
+            </article>
+            <article class="card">
+              <h3>高级房</h3>
+              <p>大床、双床和三床组合，适合不同人数与入住偏好的同行组合。</p>
+              <figure class="frame r-4x3">
+                <img src="assets/neo-four-atolls-2026-08-13/10-superior-room.png" alt="NEO 高级房">
+              </figure>
+            </article>
+          </div>
+          <div class="image-strip">
+            <figure class="frame r-16x10">
+              <img src="assets/neo-four-atolls-2026-08-13/11-lounge.png" alt="船上休息区">
+            </figure>
+            <figure class="frame r-16x10">
+              <img src="assets/neo-four-atolls-2026-08-13/12-restaurant.png" alt="船上餐厅">
+            </figure>
+          </div>
+          <figure class="frame r-21x9" style="margin-top:18px">
+            <img src="assets/neo-four-atolls-2026-08-13/13-jacuzzi.png" alt="船上露天休息空间">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="schedule">
+      <div class="section-grid">
+        <aside class="section-label">
+          <span>05 · 2026.08.13-08.20</span>
+          <h2>一周节奏</h2>
+        </aside>
+        <div>
+          <p class="lead">
+            这不是每天换岛的旅行，而是一条围绕潜水效率设计的海上路线。船负责移动，白天交给海。
+          </p>
+          <div class="timeline">
+            <article class="day">
+              <time>Aug 13</time>
+              <div>
+                <h3>登船与适应</h3>
+                <p>完成登船、入住、装备整理和船宿说明。第一天重点是进入船宿节奏，熟悉潜水流程与船体空间。</p>
+              </div>
+            </article>
+            <article class="day">
+              <time>Aug 14-19</time>
+              <div>
+                <h3>四方线主行程</h3>
+                <p>围绕北马累、南马累、南阿里、北阿里和瓦武环礁展开。每天根据海况安排 2-3 潜，可能包含夜潜。</p>
+              </div>
+            </article>
+            <article class="day">
+              <time>Aug 20</time>
+              <div>
+                <h3>离船</h3>
+                <p>完成离船安排。回程航班建议预留足够时间，并遵守潜水后飞行间隔要求。</p>
+              </div>
+            </article>
+          </div>
+          <p class="note" style="margin-top:24px">实际潜点、潜数和顺序会根据天气、海况、水流和船方安全判断调整。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <blockquote>
+        一周时间，不追赶岛屿。<br>
+        让船带你醒在下一片海。
+      </blockquote>
+    </section>
+  </main>
+
+  <footer>
+    <span>NEO Cruiser · Four Atolls · 2026.08.13-08.20</span>
+    <span>Route and vessel only</span>
+  </footer>
+
+  <script>
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
